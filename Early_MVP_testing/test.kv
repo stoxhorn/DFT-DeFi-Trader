@@ -1,0 +1,94 @@
+<Button@Button>:
+    font_size: 15
+    size_hint_y:None
+    height: 30
+
+<Label@Label>:
+    font_size: 15
+    size_hint_y:None
+    height: 30
+
+<Item@GridLayout>:
+    cols: 2
+    text: ""
+    value: 0
+    padding : 5, 0
+    spacing: 10, 0
+    Label:
+        size_hint_x: .35
+        text: root.text
+        halign: 'left'
+        valign: 'middle'
+        canvas.before:
+            Color:
+                rgb: .6, .6, .6
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+    Label:
+        size_hint_x: .15
+        text: str(root.value)
+        halign: 'right'
+        valign: 'middle'
+        canvas.before:
+            Color:
+                rgb: .6, .6, .6
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+Invoice:
+    rv: rv
+    BoxLayout:
+        orientation: "vertical"
+        padding : 15, 15
+
+        BoxLayout:
+            orientation: "vertical"
+            padding : 5, 5
+            size_hint: .6, None
+            pos_hint: {'x': .18,}
+
+
+            BoxLayout:
+                orientation: "horizontal"
+                padding : 5, 5
+                spacing: 10, 10
+                size: 800, 40
+                size_hint: 1, None
+
+                Button:
+                    text: "Show"
+                    size_hint_x: .05
+                    spacing_x: 30
+                    on_press:root.abc()
+
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint: 1, 1
+
+            BoxLayout:
+                orientation: "vertical"
+                size_hint: .5, 1
+                padding : 0, 15
+                spacing: 10, 10
+                size: 500, 30
+
+                Button:
+                    text: "Invoice"
+                    text_size: self.size
+                    halign: 'center'
+                    valign: 'middle'
+
+                BoxLayout:
+                    RecycleView:
+                        id: rv
+                        viewclass: 'Item'
+                        RecycleBoxLayout:
+                            default_size: None, dp(30)
+                            default_size_hint: 1, None
+                            size_hint_y: None
+                            height: self.minimum_height
+                            orientation: 'vertical'
+#: import SlideTransition kivy.uix.screenmanager.SlideTransition
