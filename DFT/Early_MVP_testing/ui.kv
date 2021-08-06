@@ -1,0 +1,216 @@
+#: import SlideTransition kivy.uix.screenmanager.SlideTransition
+WindowManager:
+
+    MM:
+
+    Options:
+
+    Wallet:
+
+
+<Token@GridLayout>:
+    cols: 2
+    text: ""
+    value: 0
+    padding : 5, 0
+    spacing: 10, 0
+    Label:
+        size_hint_x: .35
+        text: root.text
+        halign: 'left'
+        valign: 'middle'
+        canvas.before:
+            Color:
+                rgb: .6, .6, .6
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+    Label:
+        size_hint_x: .15
+        text: str(root.value)
+        halign: 'right'
+        valign: 'middle'
+        canvas.before:
+            Color:
+                rgb: .6, .6, .6
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+<MM>:
+    name: "Main Menu"
+
+    BoxLayout:
+        orientation: "vertical"
+        size: root.width, root.height
+
+        Label:
+            text: "Main Menu"
+            font_size: 40
+
+        Button:
+            text: "Options"
+            font_size: 32
+            on_press:
+                app.root.transition = SlideTransition(duration = 0)
+                app.root.current = "Options"
+                root.manager.transition.direction = "left"
+        Button:
+            text: "Get Balances"
+            font_size: 32
+            on_press:
+                root.get_balance()
+                app.root.transition = SlideTransition(duration = 0)
+                app.root.current = "Wallet"
+                root.manager.transition.direction = "left"
+
+<Wallet>:
+    name: "Wallet"
+    rv: rv
+    on_pre_enter: root.get_balances()
+
+    BoxLayout:
+        orientation: "vertical"
+        padding : 15, 15
+
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint: 1, 1
+
+            BoxLayout:
+                orientation: "vertical"
+                size_hint: .5, 1
+                padding : 0, 15
+                spacing: 10, 10
+                size: 500, 30
+
+                BoxLayout:
+                    RecycleView:
+                        id: rv
+                        viewclass: 'Token'
+                        RecycleBoxLayout:
+                            default_size: None, dp(30)
+                            default_size_hint: 1, None
+                            size_hint_y: None
+                            height: self.minimum_height
+                            orientation: 'vertical'
+        Button:
+            text: "Exit"
+            font_size: 40
+            on_press:
+                app.root.transition = SlideTransition(duration = 0)
+                app.root.current = "Main Menu"
+                root.manager.transition.direction = "right"
+
+<Options>:
+    name: "Options"
+    address:address
+    token_address:token_address
+    token_name:token_name
+    
+    BoxLayout:
+        orientation: "vertical"
+        size: root.width, root.height
+
+        Label:
+            text: "Options"
+            font_size: 40
+
+        BoxLayout:
+            orientation: "vertical"
+            size: root.width, root.height
+            row_force_default: True
+            row_default_height: 30
+            GridLayout:
+                cols: 2
+                Label:
+                    text: "Change wallet address"
+                    font_size: 32
+                Label:
+                    text: ""
+                    font_size: 32
+            
+            GridLayout:
+                cols: 3
+                row_force_default: True
+                row_default_height: 30
+                Label:
+                    text: ""
+                    font_size: 24
+                Label:
+                    text: "address"
+                    font_size: 24
+                Label:
+                    text: ""
+                    font_size: 24
+                Label:
+                    text: ""
+                    font_size: 24
+                
+                TextInput:
+                    id: address
+                    font_size: 16
+                    multiline:False
+                Button:
+                    text: "Add Address"
+                    font_size: 24
+                    on_press: root.add_address()
+            Label:
+                row_force_default: True
+                row_default_height: 30
+                text: ""
+                font_size: 32
+            
+            GridLayout:
+                cols: 2
+                Label:
+                    text: "Add token to library"
+                    font_size: 32
+                Label:
+                    text: ""
+                    font_size: 32   
+            GridLayout:
+                row_force_default: True
+                row_default_height: 30
+                cols: 4
+                Label:
+                    text: ""
+                    font_size: 24
+                Label:
+                    text: "Token Name"
+                    font_size: 24
+                Label:
+                    text: "Token Address"
+                    font_size: 24
+                Label:
+                    text: ""
+                    font_size: 24
+                Label:
+                    text: ""
+                    font_size: 24
+                
+                TextInput:
+                    id: token_name
+                    font_size: 16
+                    multiline:False
+                TextInput:
+                    id: token_address
+                    font_size: 16
+                    multiline:False
+                Button:
+                    text: "Add token"
+                    font_size: 24
+                    on_press: root.add_token()
+        Label:
+            text: ""
+            valign: "middle"
+            font_size: 32                
+
+        Button:
+            text: "Exit"
+            font_size: 40
+            on_press:
+                app.root.transition = SlideTransition(duration = 0)
+                app.root.current = "Main Menu"
+                root.manager.transition.direction = "right"
